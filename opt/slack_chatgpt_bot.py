@@ -35,6 +35,8 @@ openai.api_key = OPENAI_API_KEY
 # アプリの初期化
 app = App(token=SLACK_BOT_TOKEN)
 
+# メッセージを受け取るイベントハンドラーを定義する
+
 @app.event("app_mention")
 def handle_app_mentions(body, say, logger):
     """app_mentionイベントを処理する"""
@@ -42,6 +44,7 @@ def handle_app_mentions(body, say, logger):
     user_id = body["event"]["user"]
     channel = body['event']['channel']
 
+# チャンネルがプライベートチャンネルかどうかを確認する
     try:
         result = app.client.conversations_info(channel=channel)
         channel_type = result["channel"]["is_private"]
@@ -50,7 +53,7 @@ def handle_app_mentions(body, say, logger):
              prompt = f"{CHARACTER_CONFIG} {text} "
              response = openai.Completion.create(
                 engine="text-davinci-003",
-                max_tokens=150,
+                max_tokens=600,
                 prompt=prompt,
                 n=1,
                 stop=None,
