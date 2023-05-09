@@ -1,0 +1,10 @@
+version: '3'
+services:
+  python3:
+    restart: always
+    build: .
+    env_file:
+      - ./opt/.env
+    tty: true
+    volumes:
+      - ./opt:/opt
